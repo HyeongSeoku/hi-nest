@@ -1,9 +1,10 @@
-import { Controller, Delete, Get, Param, Post, Patch, Body, Query, NotFoundException } from '@nestjs/common';
+import { Controller, Delete, Get, Param, Post, Patch, Body, Query, NotFoundException, Req, Res } from '@nestjs/common';
 import { CreateMovieDto} from './dto/create-movie.dto';
+import { UpdateMovieDto } from './dto/update-movie.dto';
 import { Movie } from './entities/movie.entity';
 import { MoviesService } from './movies.service';
 
-@Controller('/movies')   // ('movies') : Entry Point를 컨트롤함
+@Controller('movies')   // ('movies') : Entry Point를 컨트롤함
 export class MoviesController {
 
     constructor(private readonly moviesService: MoviesService){}
@@ -26,13 +27,13 @@ export class MoviesController {
     }
 
     @Delete("/:id")
-    remove(@Param('id') movieId:string){
+    remove(@Param('id') movieId:number){
         return this.moviesService.deleteOne(movieId);
     }
 
     //patch = 일부분만 업데이트 할때 , Put 전체 업데이트
     @Patch('/:id')
-    patch(@Param('id') movieId:string, @Body() updateData){
+    patch(@Param('id') movieId:number, @Body() updateData:UpdateMovieDto){
         return this.moviesService.update(movieId,updateData);
     }
     
