@@ -16,7 +16,7 @@ export class MoviesController {
     //('/:id')와 @Param('id')는 동일해야함 
     //movieId:string 은 위와 동일하지 않아도됨
     @Get('/:id')
-    getOne(@Param('id') movieId:string) :Movie{
+    getOne(@Param('id') movieId:number) :Movie{
         return this.moviesService.getOne(movieId);
     }
 
