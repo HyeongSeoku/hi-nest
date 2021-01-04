@@ -1,4 +1,4 @@
-import { Controller, Delete, Get, Param, Post, Patch } from '@nestjs/common';
+import { Controller, Delete, Get, Param, Post, Patch, Body, Query } from '@nestjs/common';
 
 @Controller('/movies')   // ('movies') : Entry Point를 컨트롤함
 export class MoviesController {
@@ -6,6 +6,12 @@ export class MoviesController {
     @Get()
     getAll(){
         return `This will return all movies`;
+    }
+    
+    // @Get('/:id') 보다 아래에 있으면 "search"를 id로 판단함
+    @Get('search')
+    search(@Query("year") seachingYear:string){
+        return `We are searching for a movie made after :`;
     }
 
     //('/:id')와 @Param('id')는 동일해야함 
@@ -16,8 +22,8 @@ export class MoviesController {
     }
 
     @Post()
-    create(){
-        return "This will create a movie";
+    create(@Body() movieData){
+        return movieData;
     }
 
     @Delete("/:id")
@@ -27,9 +33,11 @@ export class MoviesController {
 
     //patch = 일부분만 업데이트 할때 , Put 전체 업데이트
     @Patch('/:id')
-    patch(@Param('id') movieId:string){
-        return `This will update a movie withe the id: ${movieId}`;
+    patch(@Param('id') movieId:string, @Body() updateData){
+        return {
+            updatedMovie: movieId,
+            ...updateData,
+        }
     }
-
     
 }
